@@ -1,24 +1,37 @@
-import React, { memo, useEffect, useRef } from 'react'
+import React, { memo, useEffect, useRef, useState } from 'react'
 import { css, jsx } from '@emotion/react'
 import { motion } from 'framer-motion'
-import { background, lightRed } from './App'
+import { background, darkBlue, foreground, lightBrown, lightRed } from './App'
 import { Board } from '../snake/Board'
 import { Direction } from '../snake/Snake'
 import { CanvasWrapperProps } from '../types'
+import { PixelatedBG } from '../snake/Background'
 
 /**@jsx jsx */
 
-export const CanvasWrapper = memo(({ partitionCount, updatesPerSecond,gameOverHook, pauseHook, scoreHook }: CanvasWrapperProps) => {
+export const CanvasWrapper = memo(({ partitionCount, updatesPerSecond, gameOverHook, pauseHook, scoreHook }: CanvasWrapperProps) => {
+    let topContext: CanvasRenderingContext2D
+
     const canvasRef = useRef<HTMLCanvasElement>(null)
     const board = Board.defaultBoard(window.innerWidth/2, window.innerHeight/2, window.innerWidth, window.innerHeight)
-    .setColor(lightRed, background)
     .setPartitionCount(partitionCount)
     .setScoreHook(scoreHook)
 
+    const boardBG = new PixelatedBG(lightBrown.darker(), 5, false, false, true)
+    .setPosition(board.getPosition().x, board.getPosition().y)
+    .setPixelSideLength(board.getPartitionLength())
+    .setDimensions(board.getSideLength(), board.getSideLength())
+
+    board.setColor(background, boardBG)
+    
     const snake = board.getSnake()
     .setBounds(partitionCount, partitionCount)
     .setGameOverHook(gameOverHook)
+    .setColor(foreground)
 
+    const pixelBG = new PixelatedBG(lightBrown, 20)
+
+    let cleared = false
     const init = () => {
         resize()
         window.addEventListener('resize', () => {
@@ -44,15 +57,14 @@ export const CanvasWrapper = memo(({ partitionCount, updatesPerSecond,gameOverHo
             if(direction && !board.isPaused())
                 snake.setHeadDirection(direction)
             else if(e.key === ' ' && snake.isGameOver()) {
+                cleared = false
                 snake.reset()
                 board.unpause()
                 scoreHook(0)
-            }
-            else if(e.key === ' ' && board.isPaused()) {
+            } else if(e.key === ' ' && board.isPaused()) {
                 pauseHook(false)
                 board.unpause()
-            }
-            else if(e.key === 'g' && !board.isPaused() && !snake.isGameOver()) {
+            } else if(e.key === 'g' && !board.isPaused() && !snake.isGameOver()) {
                 board.pause()
                 pauseHook(true)
             }
@@ -63,20 +75,34 @@ export const CanvasWrapper = memo(({ partitionCount, updatesPerSecond,gameOverHo
         canvasRef.current.width = window.innerWidth
         canvasRef.current.height = window.innerHeight
         board.resize(window.innerWidth/2, window.innerHeight/2, window.innerWidth, window.innerHeight)
+        pixelBG
+        .setPixelSideLength(window.innerWidth/128)
+        .setDimensions(window.innerWidth, window.innerHeight)
+        .setAdditional(50)
+
+        boardBG
+        .setPosition(board.getPosition().x, board.getPosition().y)
+        .setPixelSideLength(board.getPartitionLength())
+        .setDimensions(board.getSideLength(), board.getSideLength())
+
+        if(topContext)
+            pixelBG.draw(topContext)
     }
 
     // Draw Here
     const draw = (c: CanvasRenderingContext2D) => {
-        c.fillStyle = background.toString()
-        c.fillRect(0, 0, window.innerWidth, window.innerHeight)
-
         board.draw(c)
     }
 
     useEffect(() => {
+        init()
         const canvas = canvasRef.current
         const context = canvas.getContext('2d')
-        
+        topContext = context
+
+        // Draw Static pixelBG
+        pixelBG.draw(context)
+
         let start = Date.now()
         let millisecondsPerUpdate = 1000/updatesPerSecond
 
@@ -86,13 +112,19 @@ export const CanvasWrapper = memo(({ partitionCount, updatesPerSecond,gameOverHo
             if(elapsed - start > millisecondsPerUpdate) {
                 board.update()
                 start = elapsed
-            }
+            
+                if(snake.isGameOver() && !cleared) {
+                    pixelBG.draw(context)
 
+                    cleared = true
+                }
+            
+            }
+            
             draw(context)
             requestAnimationFrame(render)
         }
 
-        init()
         render()
 
     }, [draw])

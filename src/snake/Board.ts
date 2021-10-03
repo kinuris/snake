@@ -1,7 +1,8 @@
-import { lightRed } from "../components/App"
+import { foreground } from "../components/App"
 import { scoreHook, SnakeBound } from "../types"
 import { clamp } from "../util/clamp"
 import { Color } from "../util/Color"
+import { PixelatedBG } from "./Background"
 import { Snake } from "./Snake"
 
 export class Board {
@@ -14,9 +15,9 @@ export class Board {
     private strokeColor = Color.WHITE
     private fruitColor = new Color(200, 20, 10, 1).mix(new Color(255, 60, 75, 1))
     private fruitCoords = { x: Math.floor(Math.random() * 16), y: Math.floor(Math.random() * 16) }
-    private backgroundColor = Color.BLACK.brighter()
+    private backgroundColor: Color | PixelatedBG = Color.BLACK.brighter()
     private partitions = 16
-    private snake = new Snake()
+    private snake = new Snake(foreground)
     private paused = true
 
     static defaultBoard(xPos: number, yPos: number, width: number, height: number) {
@@ -31,9 +32,16 @@ export class Board {
     }
 
     private drawBackground(c: CanvasRenderingContext2D) {
-        c.beginPath()
-        c.fillStyle = this.backgroundColor.toString()
-        c.fillRect(this.positionX, this.positionY, this.sideLength, this.sideLength)
+        
+        if(this.backgroundColor instanceof Color) {
+            c.beginPath()
+            c.fillStyle = this.backgroundColor.toString()
+            c.fillRect(this.positionX, this.positionY, this.sideLength, this.sideLength)
+        } else if(this.backgroundColor instanceof PixelatedBG) {
+            this.backgroundColor.draw(c)
+        } else {
+            c.clearRect(this.positionX, this.positionY, this.sideLength, this.sideLength)
+        }
     }
 
     private drawPartitions(c: CanvasRenderingContext2D) {
@@ -42,7 +50,7 @@ export class Board {
 
         for(let i = 0; i < this.partitions * this.partitions; i++) {
             c.beginPath()
-            c.lineWidth = 1
+            c.lineWidth = 3
             c.strokeStyle = this.strokeColor.toString()
             c.strokeRect(this.positionX + (this.partitionLength * count), this.positionY + (this.partitionLength * row), this.partitionLength, this.partitionLength)
         
@@ -133,13 +141,25 @@ export class Board {
         return this
     }
 
+    getSideLength() {
+        return this.sideLength
+    }
+
+    getPosition() {
+        return { x: this.positionX, y: this.positionY}
+    }
+
+    getPartitionLength() {
+        return this.partitionLength
+    }
+
     setPartitionCount(count: number) {
         this.partitions = count
 
         return this
     }
 
-    setColor(stroke: Color, background: Color) {
+    setColor(stroke: Color, background: Color | PixelatedBG | null) {
         this.strokeColor = stroke
         this.backgroundColor = background
 
