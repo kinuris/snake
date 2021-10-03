@@ -13,8 +13,10 @@ export const background = new Color(18, 27, 116, 1).mix(new Color(20, 20, 70, 1)
 export const darkBlue = new Color(45, 36, 138, 1)
 export const lightRed = new Color(228, 44, 100, 1)
 
-export function App() {
+// Other Colors
+export const lightBrown = new Color(181, 101, 29, 1)
 
+export function App() {
     const [partitionCount, setPartitionCount] = useState(16)
     const [updatesPerSecond, setUpdatesPerSecond] = useState(12)
     const [score, setScore] = useState(0)
