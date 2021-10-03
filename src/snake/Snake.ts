@@ -19,10 +19,12 @@ export class Snake {
     private joints: Joint[] = []
     private previousHeadDirection: Direction
     private gameOverHook: gameOverHook
+    private color: Color
     private head: Segment
     private body: Segment[]
 
-    constructor() {
+    constructor(color = Color.WHITE) {
+        this.color = color
         this.initHeadBody()
     }
 
@@ -63,7 +65,7 @@ export class Snake {
                 xSpawn = x
             }
 
-            this.body.push(new Segment(xSpawn, ySpawn, direction))
+            this.body.push(new Segment(xSpawn, ySpawn, direction).setColor(this.color))
             this.shouldGrow = false
         }
     }
@@ -75,13 +77,13 @@ export class Snake {
             this.shouldGrow = false
             this.directionSuggestion = Direction.Left
             this.joints = []
-            this.initHeadBody()
+            this.initHeadBody(this.color)
         }
     }
     
-    private initHeadBody() {
-        this.head = new Segment(Math.round(this.bounds.x/2) - 1, Math.round(this.bounds.y/2), Direction.Left)
-        this.body = [new Segment(Math.round(this.bounds.x/2), Math.round(this.bounds.y/2), Direction.Left), new Segment(Math.round(this.bounds.x/2) + 1, Math.round(this.bounds.y/2), Direction.Left)]
+    private initHeadBody(color = Color.WHITE) {
+        this.head = new Segment(Math.round(this.bounds.x/2) - 1, Math.round(this.bounds.y/2), Direction.Left).setColor(color)
+        this.body = [new Segment(Math.round(this.bounds.x/2), Math.round(this.bounds.y/2), Direction.Left).setColor(color), new Segment(Math.round(this.bounds.x/2) + 1, Math.round(this.bounds.y/2), Direction.Left).setColor(color)]
     }
 
     private updateHeadBody() {
@@ -155,9 +157,15 @@ export class Snake {
         this.directionSuggestion = direction
     }
 
+    setColor(color: Color) {
+        this.color = color
+
+        return this
+    }
+
     setBounds(x: number, y: number) {
         this.bounds = { x, y }
-        this.initHeadBody()
+        this.initHeadBody(this.color)
 
         return this
     }
