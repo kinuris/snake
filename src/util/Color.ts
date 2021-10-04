@@ -64,9 +64,9 @@ export class Color {
     }
 
     setAlpha(alpha: number) {
-        this.a = alpha
+        let a = alpha
 
-        return this
+        return new Color(this.r, this.g, this.b, a)
     }
 
     toHSL() {
