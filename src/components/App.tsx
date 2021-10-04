@@ -5,6 +5,7 @@ import { motion } from 'framer-motion'
 import { CanvasWrapper } from './CanvasWrapper'
 import { Color } from '../util/Color'
 import { Score } from './Score'
+import { MenuToggle } from './MenuToggle'
 
 /**@jsx jsx */
 
@@ -15,6 +16,9 @@ export const lightRed = new Color(228, 44, 100, 1)
 
 // Other Colors
 export const lightBrown = new Color(181, 101, 29, 1)
+
+// Color Combinations
+// All light brown with background strokes
 
 export function App() {
     const [partitionCount, setPartitionCount] = useState(16)
@@ -30,8 +34,9 @@ export function App() {
                 overflow: hidden;
                 height: 100vh;
             `}
-        >
+        >    
             <CanvasWrapper partitionCount={partitionCount} pauseHook={setPaused} gameOverHook={setGameOver} scoreHook={setScore} updatesPerSecond={updatesPerSecond} />            
+            <MenuToggle paused={paused} gameOver={gameOver} />
         </motion.div>
     )
 }
