@@ -17,6 +17,11 @@ export type CanvasWrapperProps = {
     scoreHook: scoreHook
 }
 
+export type MenuToggleProps = {
+    gameOver: boolean,
+    paused: boolean
+}
+
 export type ScoreProps = {
     score: number
 }
