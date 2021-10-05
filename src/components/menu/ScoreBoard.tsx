@@ -10,6 +10,7 @@ export function ScoreBoard() {
             css={css`
                 width: 50%;
                 height: 100%;
+                padding: 10px;
             `}
             id="score-board">
             <motion.p>

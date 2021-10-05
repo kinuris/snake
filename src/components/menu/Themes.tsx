@@ -10,6 +10,7 @@ export function Themes() {
             css={css`
                 width: 50%;
                 height: 100%;
+                padding: 10px;
             `}
             id="themes-board">
             <motion.p>
