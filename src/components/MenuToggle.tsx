@@ -15,7 +15,10 @@ export function MenuToggle({ gameOver, paused }: MenuToggleProps) {
                 flex-direction: column;
                 justify-content: center;
                 place-items: center;
-                padding-top: 10px;
+                padding-top: 20px;
+                @media screen and (max-height: 300px) {
+                    padding-top: 10px;
+                }
             `}
         >
             <AnimatePresence>

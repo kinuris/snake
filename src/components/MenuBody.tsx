@@ -4,8 +4,8 @@ import { motion, AnimatePresence, AnimateSharedLayout } from 'framer-motion'
 import { background, lightBrown, lightRed } from './App'
 
 import dropDown from './../res/DropDown.svg'
-import { ScoreBoard } from './ScoreBoard'
-import { Themes } from './Themes'
+import { ScoreBoard } from './menu/ScoreBoard'
+import { Themes } from './menu/Themes'
 /**@jsx jsx */
 
 const visibleBodyVariants = {
@@ -87,18 +87,22 @@ export function MenuBody() {
                     animate="visible"
                     exit="hidden"
                     css={css`
-                        background-color: ${background.setAlpha(0.8).toString()};
+                        background-color: ${background.setAlpha(0.85).toString()};
                         display: flex;
-                        margin-top: 10px;
+                        margin-top: 20px;
+                        @media screen and (max-height: 300px) {
+                            margin-top: 10px;
+                        }
+
                         padding: 10px;
-                        width: 80vw;
+                        width: 50vw;
                         height: 70vh;
                         @media screen and (max-height: 380px) {
                             height: 60vh;
                         }
 
                         border-radius: 10px;
-                        border: 5px solid ${lightRed.toString()}
+                        border: 5px solid ${lightRed.toString()};
                     `}
                 >
                     <ScoreBoard />

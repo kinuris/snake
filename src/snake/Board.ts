@@ -50,7 +50,7 @@ export class Board {
 
         for(let i = 0; i < this.partitions * this.partitions; i++) {
             c.beginPath()
-            c.lineWidth = 3
+            c.lineWidth = 2
             c.strokeStyle = this.strokeColor.toString()
             c.strokeRect(this.positionX + (this.partitionLength * count), this.positionY + (this.partitionLength * row), this.partitionLength, this.partitionLength)
         
