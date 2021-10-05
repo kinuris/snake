@@ -4,6 +4,8 @@ import { motion, AnimatePresence, AnimateSharedLayout } from 'framer-motion'
 import { background, lightBrown, lightRed } from './App'
 
 import dropDown from './../res/DropDown.svg'
+import { ScoreBoard } from './ScoreBoard'
+import { Themes } from './Themes'
 /**@jsx jsx */
 
 const visibleBodyVariants = {
@@ -42,7 +44,7 @@ const scoreVariants = {
 
 const visibleVariants = {
     visible: {
-        rotateZ: 180
+        rotateZ: 180 
         
     },
     hidden: {
@@ -85,19 +87,22 @@ export function MenuBody() {
                     animate="visible"
                     exit="hidden"
                     css={css`
-                        background-color: ${background.toString()};
+                        background-color: ${background.setAlpha(0.8).toString()};
                         display: flex;
                         margin-top: 10px;
                         padding: 10px;
-                        width: 50vw;
+                        width: 80vw;
                         height: 70vh;
+                        @media screen and (max-height: 380px) {
+                            height: 60vh;
+                        }
+
                         border-radius: 10px;
-                        border: 5px solid ${lightRed.setAlpha(0.7).toString()}
+                        border: 5px solid ${lightRed.toString()}
                     `}
                 >
-                    <motion.section id="score-board">
-                        
-                    </motion.section>
+                    <ScoreBoard />
+                    <Themes />
                 </motion.div>}
             </AnimatePresence>
         </motion.div>
