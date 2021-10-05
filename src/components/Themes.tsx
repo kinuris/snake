@@ -4,16 +4,16 @@ import { motion } from 'framer-motion'
 
 /**@jsx jsx */
 
-export function ScoreBoard() {
+export function Themes() {
     return (
         <motion.section 
             css={css`
                 width: 50%;
                 height: 100%;
             `}
-            id="score-board">
+            id="themes-board">
             <motion.p>
-                Score Board:
+                Themes:
             </motion.p>
         </motion.section>
     )
