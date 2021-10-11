@@ -76,9 +76,9 @@ export const CanvasWrapper = memo(({ partitionCount, updatesPerSecond, gameOverH
         canvasRef.current.height = window.innerHeight
         board.resize(window.innerWidth/2, window.innerHeight/2, window.innerWidth, window.innerHeight)
         pixelBG
-        .setPixelSideLength(window.innerWidth/128)
+        .setPixelSideLength(window.innerWidth/96)
         .setDimensions(window.innerWidth, window.innerHeight)
-        .setAdditional(50)
+        .setAdditional(100)
 
         boardBG
         .setPosition(board.getPosition().x, board.getPosition().y)
