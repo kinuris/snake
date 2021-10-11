@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { createContext, useState } from 'react'
 import { css, jsx } from '@emotion/react'
 import { motion } from 'framer-motion'
 
@@ -20,12 +20,20 @@ export const lightBrown = new Color(181, 101, 29, 1)
 // Color Combinations
 // All light brown with background strokes
 
+export let scoreContext: React.Context<{
+    score: number;
+    setScore: React.Dispatch<React.SetStateAction<number>>;
+}>
+
 export function App() {
     const [partitionCount, setPartitionCount] = useState(16)
     const [updatesPerSecond, setUpdatesPerSecond] = useState(12)
     const [score, setScore] = useState(0)
     const [paused, setPaused] = useState(true)
     const [gameOver, setGameOver] = useState(false)
+
+    const scoreThread = { score, setScore }
+    scoreContext = createContext(scoreThread)
 
     return (
         <motion.div
@@ -36,7 +44,9 @@ export function App() {
             `}
         >    
             <CanvasWrapper partitionCount={partitionCount} pauseHook={setPaused} gameOverHook={setGameOver} scoreHook={setScore} updatesPerSecond={updatesPerSecond} />            
-            <MenuToggle paused={paused} gameOver={gameOver} />
+            <scoreContext.Provider value={scoreThread}>
+                <MenuToggle paused={paused} gameOver={gameOver} />
+            </scoreContext.Provider>
         </motion.div>
     )
 }
