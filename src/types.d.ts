@@ -23,5 +23,7 @@ export type MenuToggleProps = {
 }
 
 export type ScoreProps = {
-    score: number
+    score: number,
+    name: string,
+    place?: number
 }
