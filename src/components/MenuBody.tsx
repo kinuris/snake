@@ -31,17 +31,6 @@ const visibleBodyVariants = {
     }
 }
 
-const scoreVariants = {
-    visible: {
-        y: 0,
-        opacity: 1
-    },
-    hidden: {
-        y: -100,
-        opacity: 0
-    }
-}
-
 const visibleVariants = {
     visible: {
         rotateZ: 180 
@@ -90,6 +79,8 @@ export function MenuBody() {
                         background-color: ${background.setAlpha(0.85).toString()};
                         display: flex;
                         margin-top: 20px;
+                        overflow-y: scroll;
+
                         @media screen and (max-height: 300px) {
                             margin-top: 10px;
                         }
