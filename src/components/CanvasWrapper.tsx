@@ -1,3 +1,5 @@
+/** @jsxImportSource @emotion/react */
+
 import React, { memo, useEffect, useRef, useState } from 'react'
 import { css, jsx } from '@emotion/react'
 import { motion } from 'framer-motion'
@@ -6,8 +8,6 @@ import { Board } from '../snake/Board'
 import { Direction } from '../snake/Snake'
 import { CanvasWrapperProps } from '../types'
 import { PixelatedBG } from '../snake/Background'
-
-/**@jsx jsx */
 
 export const CanvasWrapper = memo(({ partitionCount, updatesPerSecond, gameOverHook, pauseHook, scoreHook }: CanvasWrapperProps) => {
     let topContext: CanvasRenderingContext2D

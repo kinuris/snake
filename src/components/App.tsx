@@ -7,8 +7,6 @@ import { Color } from '../util/Color'
 import { Score } from './Score'
 import { MenuToggle } from './MenuToggle'
 
-/**@jsx jsx */
-
 export const foreground = new Color(97, 74, 211, 1)
 export const background = new Color(18, 27, 116, 1).mix(new Color(20, 20, 70, 1))
 export const darkBlue = new Color(45, 36, 138, 1)
@@ -44,9 +42,9 @@ export function App() {
             `}
         >    
             <CanvasWrapper partitionCount={partitionCount} pauseHook={setPaused} gameOverHook={setGameOver} scoreHook={setScore} updatesPerSecond={updatesPerSecond} />            
-            <scoreContext.Provider value={scoreThread}>
+            {/* <scoreContext.Provider value={scoreThread}>
                 <MenuToggle paused={paused} gameOver={gameOver} />
-            </scoreContext.Provider>
+            </scoreContext.Provider> */}
         </motion.div>
     )
 }

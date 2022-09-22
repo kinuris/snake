@@ -1,25 +1,25 @@
 {
-  "name": "snake-game",
-  "version": "1.0.0",
-  "description": "snake game with html canvas and react",
-  "main": "index.js",
+  "name": "snake_with_vite",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "snowpack dev"
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview"
   },
-  "author": "",
-  "license": "ISC",
   "dependencies": {
-    "framer-motion": "^4.1.17",
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2"
+    "framer-motion": "^7.3.6",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
   },
   "devDependencies": {
-    "@emotion/react": "^11.4.1",
-    "@snowpack/plugin-sass": "^1.4.0",
-    "@snowpack/plugin-typescript": "^1.2.1",
-    "@types/react": "^17.0.24",
-    "@types/react-dom": "^17.0.9",
-    "snowpack": "^3.8.8"
+    "@emotion/react": "^11.10.4",
+    "@types/react": "^18.0.17",
+    "@types/react-dom": "^18.0.6",
+    "@vitejs/plugin-react": "^2.1.0",
+    "sass": "^1.54.9",
+    "typescript": "^4.6.4",
+    "vite": "^3.1.0"
   }
 }
